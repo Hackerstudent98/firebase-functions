@@ -206,10 +206,11 @@ export class DeltaSnapshot implements firebase.database.DataSnapshot {
     return valAt(this._delta, this._childPath) !== undefined;
   }
 
+  // TODO(inlined) what is this boolean for?
   forEach(action: (a: DeltaSnapshot) => boolean): boolean {
     let val = this.val();
     if (_.isPlainObject(val)) {
-      return _.some(val, (value, key: string) => action(this.child(key)) === true);
+      _.keys(val).forEach(key => action(this.child(key)));
     }
     return false;
   }
